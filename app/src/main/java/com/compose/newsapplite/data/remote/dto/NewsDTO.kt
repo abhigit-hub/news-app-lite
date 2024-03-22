@@ -9,14 +9,14 @@ data class NewsDTO(
 )
 
 data class ArticleDTO(
-    val author: String,
-    val content: String,
+    val author: String?,
+    val content: String?,
     val description: String,
     val publishedAt: String,
     @SerializedName("source") val sourceDTO: SourceDTO,
     val title: String,
     val url: String,
-    val urlToImage: String
+    val urlToImage: String?
 )
 
 data class SourceDTO(

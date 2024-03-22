@@ -31,7 +31,7 @@ class NewsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val response = newsRepository.getTopHeadlineNews()
             withContext(Dispatchers.Main) {
-                _uiState.value = response.data?.totalResults ?: -2
+                _uiState.value = response.data?.articles?.size ?: -2
             }
         }
     }

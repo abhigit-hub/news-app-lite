@@ -7,50 +7,42 @@ import com.compose.newsapplite.domain.model.ArticleInfo
 import com.compose.newsapplite.domain.model.NewsInfo
 import com.compose.newsapplite.domain.model.SourceInfo
 
+private const val PLACEHOLDER_URL_TO_IMAGE = "https://cdn.arstechnica.net/wp-content/uploads/2024/03/apple-mchip-encryption-vulnerability-760x380.jpg"
+
 fun NewsDTO.toNewsInfo(): NewsInfo {
     return NewsInfo(
-        status = status,
-        totalResults = totalResults,
         articles = articlesDTO.toArticleInfo()
     )
 }
 
 /*
-* If checkIfAnySubItemsAreNull() returns
+* If checkIfSubItemsAreInvalid() returns
 * true  -> skip that item
 * false -> consider that item
 * */
 fun List<ArticleDTO>.toArticleInfo(): List<ArticleInfo> {
     return this
-        .filter { checkIfAnySubItemsAreNull(it).not() }
+        .filter { checkIfSubItemsAreInvalid(it).not() }
         .map {
             ArticleInfo(
-                author = it.author,
-                content = it.content,
-                description = it.description,
+                author = it.author ?: it.sourceDTO.name,
+                content = it.content!!,
                 publishedAt = it.publishedAt,
                 source = it.sourceDTO.toSourceInfo(),
                 title = it.title,
                 url = it.url,
-                urlToImage = it.urlToImage
+                urlToImage = it.urlToImage ?: PLACEHOLDER_URL_TO_IMAGE
             )
         }
         .toList()
 }
 
-private fun checkIfAnySubItemsAreNull(it: ArticleDTO): Boolean {
-    val isArticleDTOSubItemsNull = it.author == null || it.description == null ||
-            it.publishedAt == null || it.sourceDTO == null || it.title == null ||
-            it.url == null || it.urlToImage == null || it.content == null
-
-    val isSourceDTOSubItemsNull = (it.sourceDTO == null || it.sourceDTO.id == null || it.sourceDTO.name == null)
-
-    return isArticleDTOSubItemsNull || isSourceDTOSubItemsNull
+private fun checkIfSubItemsAreInvalid(it: ArticleDTO): Boolean {
+    return it.content == null || it.content.contains("removed")
 }
 
 fun SourceDTO.toSourceInfo(): SourceInfo {
     return SourceInfo(
-        id = id,
         name = name
     )
 }
