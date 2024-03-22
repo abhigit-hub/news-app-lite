@@ -11,8 +11,15 @@ interface NewsApi {
     }
 
     @GET("top-headlines")
-    suspend fun getTopHeadlineNews(
+    suspend fun getNewsByTrending(
         @Query("country") country: String,
+        @Query("apiKey") apiKey: String = NEWS_API_KEY
+    ): NewsDTO
+
+    @GET("everything")
+    suspend fun getNewsByCategory(
+        @Query("q") query: String,
+        @Query("sortBy") sortBy: String = "popular",
         @Query("apiKey") apiKey: String = NEWS_API_KEY
     ): NewsDTO
 }
