@@ -19,17 +19,35 @@ class NewsRepositoryImpl @Inject constructor(
         private val TAG = NewsRepositoryImpl::class.java.simpleName
     }
 
-    override suspend fun getTopHeadlineNews(country: String): Resource<NewsInfo> {
+    override suspend fun getNewsByTrending(country: String): Resource<NewsInfo> {
         return try {
             Log.d(TAG, "REQ ==> getTopHeadlineNews() ==> (country = $country)")
-            val response = newsApi.getTopHeadlineNews(country)
+            val response = newsApi.getNewsByTrending(
+                country = country
+            )
             Log.d(TAG, "RESP <== getTopHeadlineNews() <== $response)")
 
             val data = response.toNewsInfo()
             Resource.Success(data = data)
         } catch (e: HttpException) {
             e.printStackTrace()
-            Resource.Error("Failed api request")
+            Resource.Error("getNewsByTrending() => Failed api request")
+        }
+    }
+
+    override suspend fun getNewsByCategory(category: String): Resource<NewsInfo> {
+        return try {
+            Log.d(TAG, "REQ ==> getNewsByCategory() ==> (category = $category)")
+            val response = newsApi.getNewsByCategory(
+                query = category
+            )
+            Log.d(TAG, "RESP <== getNewsByCategory() <== $response)")
+
+            val data = response.toNewsInfo()
+            Resource.Success(data = data)
+        } catch (e: HttpException) {
+            e.printStackTrace()
+            Resource.Error("getNewsByCategory() => Failed api request")
         }
     }
 }
