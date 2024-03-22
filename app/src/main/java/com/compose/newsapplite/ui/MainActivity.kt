@@ -1,4 +1,4 @@
-package com.compose.newsapplite
+package com.compose.newsapplite.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
