@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">News App Lite</string>
+
+    <string name="landing_page_title">Find Interesting \n News Across World</string>
+    <string name="landing_page_subtitle">Get the Latest Updates On \nThe Most Popular And Hot News With Us</string>
+    <string name="landing_page_proceed">LESSGO!!</string>
 </resources>
