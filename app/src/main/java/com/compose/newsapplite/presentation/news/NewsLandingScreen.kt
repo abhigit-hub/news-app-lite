@@ -14,6 +14,7 @@ import com.compose.newsapplite.presentation.model.UserUiState
 import com.compose.newsapplite.presentation.news.composables.custom.KeypadContainer
 import com.compose.newsapplite.presentation.news.composables.landing.LandingCaptureNameView
 import com.compose.newsapplite.presentation.news.composables.landing.LandingMainView
+import com.compose.newsapplite.presentation.news.destinations.NewsScreenContainerDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -52,6 +53,12 @@ fun NewsLandingScreenContainer(
                 .weight(if (keypadUiState.value.isKeypadVisible) 0.3f else 0.15f),
             keypadUiState = keypadUiState.value,
             userUiState = userUiState.value,
+            onOnboardingComplete = {
+                destinationsNavigator.popBackStack()
+                destinationsNavigator.navigate(
+                   NewsScreenContainerDestination()
+                )
+            },
             onKeyboardVisible = {
                 viewModel.handleKeypadVisibility(it)
             }

@@ -7,7 +7,7 @@ import retrofit2.http.Query
 interface NewsApi {
     companion object {
         const val BASE_URL_NEWS = "https://newsapi.org/v2/"
-        const val NEWS_API_KEY = "acad7614d6444a8bb3bc5339d4a2a9c4"
+        const val NEWS_API_KEY = "b8ce9c8e490d4c4a960af31ec02edf44"
     }
 
     @GET("top-headlines")
