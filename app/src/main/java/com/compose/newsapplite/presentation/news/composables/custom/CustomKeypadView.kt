@@ -1,4 +1,4 @@
-package com.compose.newsapplite.presentation.news
+package com.compose.newsapplite.presentation.news.composables.custom
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -16,11 +14,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,85 +28,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.compose.newsapplite.ui.theme.NewsTypography
 import com.compose.newsapplite.utils.KeypadConstants
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-
-@RootNavGraph(true)
-@Destination
-@Composable
-fun NewsScreenContainer(
-    viewModel: NewsViewModel,
-    destinationsNavigator: DestinationsNavigator
-) {
-    val uiState = viewModel.uiState
-    val keypadUiState = viewModel.keypadUiState
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = keypadUiState.value.textPad,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.7f),
-            style = NewsTypography.headlineLarge
-        )
-
-        KeypadContainer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.3f),
-            keypadUiState = keypadUiState.value,
-            onKeyboardVisible = {
-                viewModel.handleKeypadVisibility(it)
-            }
-        ) {
-            viewModel.handleOnKeyEvent(it)
-        }
-    }
-}
-
-@Composable
-fun KeypadContainer(
-    modifier: Modifier,
-    keypadUiState: KeypadUiState,
-    onKeyboardVisible: (Boolean) -> Unit,
-    onKeyChanged: (KeypadConstants.KeypadCharacter) -> Unit
-) {
-    if (keypadUiState.isKeypadVisible) {
-        CustomKeypad(
-            modifier = modifier
-               .fillMaxWidth()
-               .background(Color.Black),
-            isCapsLockEnabled = keypadUiState.isCapsLockEnabled,
-            onKeyChanged = { onKeyChanged(it) }
-       )
-    } else {
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(end = 15.dp, bottom = 80.dp),
-            contentAlignment = Alignment.BottomEnd
-        ) {
-            FloatingActionButton(
-                onClick = { onKeyboardVisible(true) },
-                containerColor = Color(0xFFFC8019),
-                shape = RoundedCornerShape(20.dp)
-            ) {
-                Icon(
-                    Icons.Default.DateRange,
-                    tint = Color.White,
-                    contentDescription = "",
-                    modifier = Modifier.size(35.dp)
-                )
-            }
-        }
-    }
-}
 
 @Composable
 fun CustomKeypad(
@@ -123,6 +40,7 @@ fun CustomKeypad(
     ) {
         Spacer(modifier = Modifier.height(10.dp))
 
+        // ROW 1
         KeypadRow(
             modifier = modifier.weight(1f),
             keypadItems = KeypadConstants.getKeypadItems(KeypadConstants.KeypadRow.KEYPAD_ROW_1),
@@ -132,6 +50,7 @@ fun CustomKeypad(
 
         Spacer(modifier = Modifier.height(10.dp))
 
+        // ROW 2
         KeypadRow(
             modifier = modifier.weight(1f),
             keypadItems = KeypadConstants.getKeypadItems(KeypadConstants.KeypadRow.KEYPAD_ROW_2),
@@ -141,6 +60,7 @@ fun CustomKeypad(
 
         Spacer(modifier = Modifier.height(10.dp))
 
+        // ROW 3
         KeypadRow(
             modifier = modifier.weight(1f),
             keypadItems = KeypadConstants.getKeypadItems(KeypadConstants.KeypadRow.KEYPAD_ROW_3),
@@ -150,6 +70,7 @@ fun CustomKeypad(
 
         Spacer(modifier = Modifier.height(10.dp))
 
+        // ROW 4
         KeypadRow(
             modifier = modifier.weight(1f),
             keypadItems = KeypadConstants.getKeypadItems(KeypadConstants.KeypadRow.KEYPAD_ROW_4),
@@ -174,61 +95,78 @@ fun KeypadRow(
     ) {
         keypadItems.forEach {
             when (it.characterRowMap.second) {
-                KeypadConstants.KeypadRow.KEYPAD_ROW_1 -> {
-                    NormalCharacterKey(
-                        keypadCharacter = it,
-                        isCapsLockEnabled = isCapsLockEnabled,
-                        onKeyChanged = { onKeyChanged(it) }
-                    )
-                }
-                KeypadConstants.KeypadRow.KEYPAD_ROW_2 -> {
-                    NormalCharacterKey(
-                        keypadCharacter = it,
-                        isCapsLockEnabled = isCapsLockEnabled,
-                        onKeyChanged = { onKeyChanged(it) }
-                    )
-                }
-                KeypadConstants.KeypadRow.KEYPAD_ROW_3 -> {
-                    when (it.characterRowMap.first) {
-                        KeypadConstants.KeypadCharacter.KEYPAD_CHARACTER_CAPS.characterRowMap.first -> {
-                            IconCharacterKey(
-                                keypadCharacter = it,
-                                isCapsLockEnabled = isCapsLockEnabled,
-                                onKeyChanged = { onKeyChanged(it) }
-                            )
-                        }
-                        KeypadConstants.KeypadCharacter.KEYPAD_CHARACTER_BACKSPACE.characterRowMap.first -> {
-                            IconCharacterKey(
-                                keypadCharacter = it,
-                                onKeyChanged = { onKeyChanged(it) }
-                            )
-                        }
-                        else -> {
-                            NormalCharacterKey(
-                                keypadCharacter = it,
-                                isCapsLockEnabled = isCapsLockEnabled,
-                                onKeyChanged = { onKeyChanged(it) }
-                            )
-                        }
-                    }
-                }
-                KeypadConstants.KeypadRow.KEYPAD_ROW_4 -> {
-                    when (it.characterRowMap.first) {
-                        KeypadConstants.KeypadCharacter.KEYPAD_CHARACTER_SPACE.characterRowMap.first -> {
-                            SpaceBarKey(
-                                keypadCharacter = it,
-                                onKeyChanged = { onKeyChanged(it) }
-                            )
-                        }
-                        KeypadConstants.KeypadCharacter.KEYPAD_CHARACTER_OK.characterRowMap.first -> {
-                            IconCharacterKey(
-                                keypadCharacter = it,
-                                onKeyChanged = { onKeyChanged(it) }
-                            )
-                        }
-                    }
-                }
+                KeypadConstants.KeypadRow.KEYPAD_ROW_1 -> handleKeypadForRow1And2(it, isCapsLockEnabled, onKeyChanged)
+                KeypadConstants.KeypadRow.KEYPAD_ROW_2 -> handleKeypadForRow1And2(it, isCapsLockEnabled, onKeyChanged)
+                KeypadConstants.KeypadRow.KEYPAD_ROW_3 -> handleKeypadForRow3(it, isCapsLockEnabled, onKeyChanged)
+                KeypadConstants.KeypadRow.KEYPAD_ROW_4 -> handleKeypadForRow4(it, onKeyChanged)
             }
+        }
+    }
+}
+
+@Composable
+private fun handleKeypadForRow1And2(
+    it: KeypadConstants.KeypadCharacter,
+    isCapsLockEnabled: Boolean,
+    onKeyChanged: (KeypadConstants.KeypadCharacter) -> Unit
+) {
+    NormalCharacterKey(
+        keypadCharacter = it,
+        isCapsLockEnabled = isCapsLockEnabled,
+        onKeyChanged = { onKeyChanged(it) }
+    )
+}
+
+@Composable
+private fun handleKeypadForRow3(
+    it: KeypadConstants.KeypadCharacter,
+    isCapsLockEnabled: Boolean,
+    onKeyChanged: (KeypadConstants.KeypadCharacter) -> Unit
+) {
+    when (it.characterRowMap.first) {
+        KeypadConstants.KeypadCharacter.KEYPAD_CHARACTER_CAPS.characterRowMap.first -> {
+            IconCharacterKey(
+                keypadCharacter = it,
+                isCapsLockEnabled = isCapsLockEnabled,
+                onKeyChanged = { onKeyChanged(it) }
+            )
+        }
+
+        KeypadConstants.KeypadCharacter.KEYPAD_CHARACTER_BACKSPACE.characterRowMap.first -> {
+            IconCharacterKey(
+                keypadCharacter = it,
+                onKeyChanged = { onKeyChanged(it) }
+            )
+        }
+
+        else -> {
+            NormalCharacterKey(
+                keypadCharacter = it,
+                isCapsLockEnabled = isCapsLockEnabled,
+                onKeyChanged = { onKeyChanged(it) }
+            )
+        }
+    }
+}
+
+@Composable
+private fun handleKeypadForRow4(
+    it: KeypadConstants.KeypadCharacter,
+    onKeyChanged: (KeypadConstants.KeypadCharacter) -> Unit
+) {
+    when (it.characterRowMap.first) {
+        KeypadConstants.KeypadCharacter.KEYPAD_CHARACTER_SPACE.characterRowMap.first -> {
+            SpaceBarKey(
+                keypadCharacter = it,
+                onKeyChanged = { onKeyChanged(it) }
+            )
+        }
+
+        KeypadConstants.KeypadCharacter.KEYPAD_CHARACTER_OK.characterRowMap.first -> {
+            IconCharacterKey(
+                keypadCharacter = it,
+                onKeyChanged = { onKeyChanged(it) }
+            )
         }
     }
 }
@@ -308,7 +246,8 @@ fun IconCharacterKey(
             Icons.Default.KeyboardArrowDown
         }
 
-        else -> {Icons.Default.ArrowBack}
+        else -> {
+            Icons.Default.ArrowBack}
     }
 
     Box(

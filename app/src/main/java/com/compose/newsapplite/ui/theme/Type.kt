@@ -46,35 +46,35 @@ val russoOneTextStyle = TextStyle(
 )
 
 val NewsTypography = Typography(
-    displayLarge = russoOneTextStyle.copy(
+    displayLarge = defaultTextStyle.copy(
         fontSize = 80.sp, lineHeight = 64.sp, letterSpacing = (-0.25).sp
     ),
-    displayMedium = russoOneTextStyle.copy(
+    displayMedium = defaultTextStyle.copy(
         fontSize = 45.sp, lineHeight = 52.sp, letterSpacing = 0.sp
     ),
-    displaySmall = russoOneTextStyle.copy(
+    displaySmall = defaultTextStyle.copy(
         fontSize = 36.sp, lineHeight = 44.sp, letterSpacing = 0.sp
     ),
-    headlineLarge = russoOneTextStyle.copy(
+    headlineLarge = defaultTextStyle.copy(
         fontSize = 32.sp, lineHeight = 40.sp, letterSpacing = 0.sp, lineBreak = LineBreak.Heading
     ),
-    headlineMedium = russoOneTextStyle.copy(
+    headlineMedium = defaultTextStyle.copy(
         fontSize = 28.sp, lineHeight = 36.sp, letterSpacing = 0.sp, lineBreak = LineBreak.Heading
     ),
-    headlineSmall = russoOneTextStyle.copy(
+    headlineSmall = defaultTextStyle.copy(
         fontSize = 24.sp, lineHeight = 32.sp, letterSpacing = 0.sp, lineBreak = LineBreak.Heading
     ),
-    titleLarge = defaultTextStyle.copy(
+    titleLarge = russoOneTextStyle.copy(
         fontSize = 22.sp, lineHeight = 28.sp, letterSpacing = 0.sp, lineBreak = LineBreak.Heading
     ),
-    titleMedium = russoOneTextStyle.copy(
+    titleMedium = defaultTextStyle.copy(
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.15.sp,
         fontWeight = FontWeight.Medium,
         lineBreak = LineBreak.Heading
     ),
-    titleSmall = russoOneTextStyle.copy(
+    titleSmall = defaultTextStyle.copy(
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.1.sp,
