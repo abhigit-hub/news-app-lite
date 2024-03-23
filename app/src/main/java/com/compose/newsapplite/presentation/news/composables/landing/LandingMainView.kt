@@ -118,11 +118,12 @@ private fun CarouselImageView() {
 fun NewsButtonView(
     modifier: Modifier,
     userUiState: UserUiState,
-    text: String
+    text: String,
+    onOnboardingComplete: () -> Unit
 ) {
     Button(
         onClick = {
-
+            onOnboardingComplete()
         },
         modifier = modifier.fillMaxSize()
             .border(

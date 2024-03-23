@@ -24,6 +24,7 @@ fun KeypadContainer(
     modifier: Modifier,
     keypadUiState: KeypadUiState,
     userUiState: UserUiState,
+    onOnboardingComplete: () -> Unit,
     onKeyboardVisible: (Boolean) -> Unit,
     onKeyChanged: (KeypadConstants.KeypadCharacter) -> Unit
 ) {
@@ -39,7 +40,8 @@ fun KeypadContainer(
         CustomKeypadHidden(
             modifier = modifier,
             userUiState = userUiState,
-            onKeyboardVisible = onKeyboardVisible
+            onKeyboardVisible = onKeyboardVisible,
+            onOnboardingComplete = onOnboardingComplete
         )
     }
 }
@@ -48,6 +50,7 @@ fun KeypadContainer(
 private fun CustomKeypadHidden(
     modifier: Modifier,
     userUiState: UserUiState,
+    onOnboardingComplete: () -> Unit,
     onKeyboardVisible: (Boolean) -> Unit
 ) {
     Row(
@@ -61,7 +64,8 @@ private fun CustomKeypadHidden(
                 .weight(0.8f)
                 .padding(start = 75.dp),
             userUiState = userUiState,
-            text = stringResource(id = R.string.landing_page_proceed)
+            text = stringResource(id = R.string.landing_page_proceed),
+            onOnboardingComplete = onOnboardingComplete
         )
 
         NewsFloatingActionButton(
