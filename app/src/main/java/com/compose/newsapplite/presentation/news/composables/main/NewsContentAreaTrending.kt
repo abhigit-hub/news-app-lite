@@ -1,6 +1,7 @@
 package com.compose.newsapplite.presentation.news.composables.main
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,7 +46,9 @@ import java.time.LocalDate
 @Composable
 fun TrendingNewsContent(
     modifier: Modifier,
-    trendingNewsUiState: TrendingNewsUiState
+    trendingNewsUiState: TrendingNewsUiState,
+    onViewAllClicked: () -> Unit,
+    onTrendingItemClicked: (NewsArticleUiState) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -54,20 +57,25 @@ fun TrendingNewsContent(
         TrendingNewsBanner(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.2f)
+                .fillMaxHeight(0.2f),
+            onViewAllClicked = onViewAllClicked,
+            isTrendingListEmpty = trendingNewsUiState.trendingNews.isEmpty()
         )
         TrendingNewsLazyRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.8f),
-            trendingNewsUiState = trendingNewsUiState
+            trendingNewsUiState = trendingNewsUiState,
+            onTrendingItemClicked = onTrendingItemClicked
         )
     }
 }
 
 @Composable
 fun TrendingNewsBanner(
-    modifier: Modifier
+    modifier: Modifier,
+    isTrendingListEmpty: Boolean,
+    onViewAllClicked: () -> Unit
 ) {
     Box(
         modifier = modifier,
@@ -87,9 +95,13 @@ fun TrendingNewsBanner(
             text = "View all",
             textAlign = TextAlign.End,
             textColor = Color(0xFFFC8019),
+            isEnabled = isTrendingListEmpty.not(),
             modifier = Modifier
                 .size(80.dp)
-                .align(Alignment.CenterEnd),
+                .align(Alignment.CenterEnd)
+                .clickable {
+                    if (isTrendingListEmpty.not()) onViewAllClicked()
+                },
             style = NewsTypography.titleMedium
         )
     }
@@ -98,13 +110,15 @@ fun TrendingNewsBanner(
 @Composable
 fun TrendingNewsLazyRow(
     modifier: Modifier,
-    trendingNewsUiState: TrendingNewsUiState
+    trendingNewsUiState: TrendingNewsUiState,
+    onTrendingItemClicked: (NewsArticleUiState) -> Unit
 ) {
     LazyRow {
         items(trendingNewsUiState.trendingNews.size) { index ->
             TrendingNewsItem(
                 modifier = modifier,
-                articleUiState = trendingNewsUiState.trendingNews[index]
+                articleUiState = trendingNewsUiState.trendingNews[index],
+                onTrendingItemClicked = onTrendingItemClicked
             )
         }
     }
@@ -113,13 +127,17 @@ fun TrendingNewsLazyRow(
 @Composable
 fun TrendingNewsItem(
     modifier: Modifier,
-    articleUiState: NewsArticleUiState
+    articleUiState: NewsArticleUiState,
+    onTrendingItemClicked: (NewsArticleUiState) -> Unit
 ) {
     Column(
         modifier = Modifier
             .height(280.dp)
             .width(320.dp)
-            .padding(horizontal = 15.dp),
+            .padding(horizontal = 15.dp)
+            .clickable {
+               onTrendingItemClicked(articleUiState)
+            },
         verticalArrangement = Arrangement.Bottom,
     ) {
         val imagePainter = rememberImagePainter(

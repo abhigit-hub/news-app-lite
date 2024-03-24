@@ -28,6 +28,7 @@ fun NewsAppImageTextBox(
     textColor: Color,
     imageTintColor: Color,
     textAlign: TextAlign,
+    isEnabled: Boolean = true,
     style: TextStyle
 ) {
     Row(
@@ -37,7 +38,7 @@ fun NewsAppImageTextBox(
     ) {
         Text(
             text = text,
-            color = textColor,
+            color = if (isEnabled) textColor else textColor.copy(alpha = 0.3f),
             textAlign = textAlign,
             style = style
         )
@@ -47,7 +48,10 @@ fun NewsAppImageTextBox(
             contentDescription = null, // Provide proper content description
             contentScale = ContentScale.None,
             modifier = Modifier.height(150.dp),
-            colorFilter = ColorFilter.tint(imageTintColor)
+            colorFilter = ColorFilter.tint(
+                if (isEnabled) imageTintColor
+                else imageTintColor.copy(alpha = 0.3f)
+            )
         )
     }
 }

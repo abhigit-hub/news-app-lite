@@ -7,13 +7,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.compose.newsapplite.presentation.model.CategoryNewsUiState
+import com.compose.newsapplite.presentation.model.NewsArticleUiState
 import com.compose.newsapplite.presentation.model.TrendingNewsUiState
 
 @Composable
 fun MainContentArea(
     modifier: Modifier,
     trendingNewsUiState: TrendingNewsUiState,
-    categoryNewsUiState: CategoryNewsUiState
+    categoryNewsUiState: CategoryNewsUiState,
+    onViewAllClicked: () -> Unit,
+    onTrendingItemClicked: (NewsArticleUiState) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -24,7 +27,9 @@ fun MainContentArea(
             modifier = modifier
                 .fillMaxWidth()
                 .weight(0.5f),
-            trendingNewsUiState = trendingNewsUiState
+            trendingNewsUiState = trendingNewsUiState,
+            onViewAllClicked = onViewAllClicked,
+            onTrendingItemClicked = onTrendingItemClicked
         )
         CategorizedNewsContent(
             modifier = modifier

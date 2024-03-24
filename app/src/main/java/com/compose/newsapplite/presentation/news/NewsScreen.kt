@@ -13,6 +13,8 @@ import androidx.compose.ui.unit.dp
 import com.compose.newsapplite.presentation.news.composables.main.MainContentArea
 import com.compose.newsapplite.presentation.news.composables.main.NewsBottomBar
 import com.compose.newsapplite.presentation.news.composables.main.NewsTopBar
+import com.compose.newsapplite.presentation.news.destinations.NewsDetailsContainerDestination
+import com.compose.newsapplite.presentation.news.destinations.NewsViewAllContainerDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -44,7 +46,19 @@ fun NewsScreenContainer(
                 .fillMaxWidth(1f)
                 .weight(0.78f),
             trendingNewsUiState = trendingNewsUiState.value,
-            categoryNewsUiState = categoryNewsUiState.value
+            categoryNewsUiState = categoryNewsUiState.value,
+            onViewAllClicked = {
+                if (trendingNewsUiState.value.trendingNews.isNotEmpty())
+                    destinationsNavigator.navigate(
+                        NewsViewAllContainerDestination()
+                    )
+            },
+            onTrendingItemClicked = {
+                viewModel.updateSelectedArticle(articleUiState = it)
+                destinationsNavigator.navigate(
+                    NewsDetailsContainerDestination()
+                )
+            }
         )
 
         NewsBottomBar(

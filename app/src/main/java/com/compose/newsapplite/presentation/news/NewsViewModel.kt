@@ -9,6 +9,7 @@ import com.compose.newsapplite.presentation.mapper.toCategoryNewsUiState
 import com.compose.newsapplite.presentation.mapper.toTrendingNewsUiState
 import com.compose.newsapplite.presentation.model.KeypadUiState
 import com.compose.newsapplite.presentation.model.CategoryNewsUiState
+import com.compose.newsapplite.presentation.model.NewsArticleUiState
 import com.compose.newsapplite.presentation.model.TrendingNewsUiState
 import com.compose.newsapplite.presentation.model.UserUiState
 import com.compose.newsapplite.utils.KeypadConstants
@@ -38,11 +39,13 @@ class NewsViewModel @Inject constructor(
 
     private val _trendingNewsUiState = mutableStateOf(TrendingNewsUiState(trendingNews = emptyList()))
     private val _categoryNewsUiState = mutableStateOf(CategoryNewsUiState(categoryNews = emptyList()))
+    private val _selectedArticleUiState = mutableStateOf<NewsArticleUiState?>(null)
     private val _userUiState = mutableStateOf(UserUiState())
     private val _keypadUiState = mutableStateOf(KeypadUiState())
 
     val trendingNewsUiState: State<TrendingNewsUiState> = _trendingNewsUiState
     val categoryNewsUiState: State<CategoryNewsUiState> = _categoryNewsUiState
+    val selectedArticleUiState: State<NewsArticleUiState?> = _selectedArticleUiState
     val userUiState: State<UserUiState> = _userUiState
     val keypadUiState: State<KeypadUiState> = _keypadUiState
 
@@ -101,6 +104,10 @@ class NewsViewModel @Inject constructor(
             userName = userName,
             hasUserEnteredValidName = true
         )
+    }
+
+    fun updateSelectedArticle(articleUiState: NewsArticleUiState) {
+        _selectedArticleUiState.value = articleUiState
     }
 
     private fun updateKeypadUiState() {
