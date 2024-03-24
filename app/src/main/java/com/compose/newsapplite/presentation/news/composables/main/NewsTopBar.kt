@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.compose.newsapplite.presentation.model.UserUiState
+import com.compose.newsapplite.presentation.news.composables.common.NewsAppDateTextBox
 import com.compose.newsapplite.ui.theme.NewsTypography
 import com.compose.newsapplite.utils.convertToNewsAppLiteDate
 import java.time.LocalDate
@@ -49,18 +50,19 @@ fun NewsTopBar(
             text = annotatedString,
             textAlign = TextAlign.Start,
             color = Color.White,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
             style = NewsTypography.headlineLarge
         )
 
         Spacer(modifier = Modifier.size(5.dp))
 
-        Text(
+        NewsAppDateTextBox(
             text = LocalDate.now().convertToNewsAppLiteDate(),
-            textAlign = TextAlign.Start,
-            color = Color.White,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
-            style = NewsTypography.titleMedium
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
         )
 
         Spacer(modifier = Modifier.size(15.dp))

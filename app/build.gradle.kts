@@ -75,6 +75,9 @@ dependencies {
     // Compose - UI - Animation Graphics
     implementation(libs.androidx.compose.animation.graphics)
 
+    // Coil - KT - Image Loading
+    implementation(libs.coil.kt.compose)
+
     // Retrofit (Retrofit, Gson Converter, OkHTTP Logging)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)

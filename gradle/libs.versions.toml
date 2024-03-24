@@ -4,6 +4,7 @@ androidGradlePlugin = "8.1.4"
 activityCompose = "1.8.2"
 composeBom = "2024.03.00"
 composeLatest = "1.7.0-alpha05"
+coilkt = "2.6.0"
 ktx = "1.12.0"
 hiltNavigationCompose = "1.2.0"
 destinations = "1.9.54"
@@ -40,6 +41,7 @@ androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "ktx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+coil-kt-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilkt" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 destinations-core = { module = "io.github.raamcosta.compose-destinations:core", version.ref = "destinations" }
 destinations-ksp = { module = "io.github.raamcosta.compose-destinations:ksp", version.ref = "destinations" }

@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.compose.newsapplite.presentation.model.KeypadUiState
 import com.compose.newsapplite.presentation.model.UserUiState
 import com.compose.newsapplite.presentation.news.composables.custom.KeypadContainer
 import com.compose.newsapplite.presentation.news.composables.landing.LandingCaptureNameView
@@ -26,7 +25,6 @@ fun NewsLandingScreenContainer(
     viewModel: NewsViewModel,
     destinationsNavigator: DestinationsNavigator
 ) {
-    val newsUiState = viewModel.newsUiState
     val userUiState = viewModel.userUiState
     val keypadUiState = viewModel.keypadUiState
 
@@ -54,6 +52,7 @@ fun NewsLandingScreenContainer(
             keypadUiState = keypadUiState.value,
             userUiState = userUiState.value,
             onOnboardingComplete = {
+                viewModel.updateUserName()
                 destinationsNavigator.popBackStack()
                 destinationsNavigator.navigate(
                    NewsScreenContainerDestination()

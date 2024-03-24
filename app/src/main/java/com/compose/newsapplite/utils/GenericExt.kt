@@ -3,6 +3,7 @@ package com.compose.newsapplite.utils
 import java.lang.StringBuilder
 import java.time.LocalDate
 import java.time.Month
+import java.time.format.DateTimeFormatter
 
 fun LocalDate.convertToNewsAppLiteDate(): String {
     val sb = StringBuilder()
@@ -22,4 +23,11 @@ fun Month.convertToCamelCase(): String {
         .filterNot {
             it == '[' || it == ']' || it == ',' || it == ' '
         }
+}
+
+fun String.toFormattedDateString(): String {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+    val localDate = LocalDate.parse(this, formatter)
+
+    return localDate.convertToNewsAppLiteDate()
 }

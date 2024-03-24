@@ -38,7 +38,8 @@ fun List<ArticleDTO>.toArticleInfo(): List<ArticleInfo> {
 }
 
 private fun checkIfSubItemsAreInvalid(it: ArticleDTO): Boolean {
-    return it.content == null || it.content.contains("removed")
+    return it.content == null || it.content.contains("emoved")
+            || it.title == null || it.title.contains("emoved")
 }
 
 fun SourceDTO.toSourceInfo(): SourceInfo {

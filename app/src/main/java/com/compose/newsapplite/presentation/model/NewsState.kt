@@ -1,8 +1,21 @@
 package com.compose.newsapplite.presentation.model
 
-data class NewsUiState(
-    val newsByTrendingSize: Int = 0,
-    val newsByCategorySize: Int = 0,
+data class TrendingNewsUiState(
+    val trendingNews: List<NewsArticleUiState>
+)
+
+data class CategoryNewsUiState(
+    val categoryNews: List<NewsArticleUiState>
+)
+
+data class NewsArticleUiState(
+    val author: String,
+    val content: String,
+    val publishedAt: String,
+    val title: String,
+    val url: String,
+    val urlToImage: String,
+    val sourceName: String
 )
 
 data class KeypadUiState(

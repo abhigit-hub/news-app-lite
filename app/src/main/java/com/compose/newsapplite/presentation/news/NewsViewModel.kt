@@ -5,8 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.compose.newsapplite.domain.repository.NewsRepository
+import com.compose.newsapplite.presentation.mapper.toCategoryNewsUiState
+import com.compose.newsapplite.presentation.mapper.toTrendingNewsUiState
 import com.compose.newsapplite.presentation.model.KeypadUiState
-import com.compose.newsapplite.presentation.model.NewsUiState
+import com.compose.newsapplite.presentation.model.CategoryNewsUiState
+import com.compose.newsapplite.presentation.model.TrendingNewsUiState
 import com.compose.newsapplite.presentation.model.UserUiState
 import com.compose.newsapplite.utils.KeypadConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,10 +36,13 @@ class NewsViewModel @Inject constructor(
     private var _isCapsLockEnabled = true
     private var _isKeypadVisible = true
 
-    private val _newsUiState = mutableStateOf(NewsUiState())
+    private val _trendingNewsUiState = mutableStateOf(TrendingNewsUiState(trendingNews = emptyList()))
+    private val _categoryNewsUiState = mutableStateOf(CategoryNewsUiState(categoryNews = emptyList()))
     private val _userUiState = mutableStateOf(UserUiState())
     private val _keypadUiState = mutableStateOf(KeypadUiState())
-    val newsUiState: State<NewsUiState> = _newsUiState
+
+    val trendingNewsUiState: State<TrendingNewsUiState> = _trendingNewsUiState
+    val categoryNewsUiState: State<CategoryNewsUiState> = _categoryNewsUiState
     val userUiState: State<UserUiState> = _userUiState
     val keypadUiState: State<KeypadUiState> = _keypadUiState
 
@@ -45,10 +51,11 @@ class NewsViewModel @Inject constructor(
             val response1 = newsRepository.getNewsByTrending()
             val response2 = newsRepository.getNewsByCategory()
             withContext(Dispatchers.Main) {
-                _newsUiState.value = NewsUiState(
-                    newsByTrendingSize = response1.data?.articles?.size ?: 0,
-                    newsByCategorySize = response2.data?.articles?.size ?: 0
-                )
+                _trendingNewsUiState.value = response1.data?.toTrendingNewsUiState()
+                    ?: TrendingNewsUiState(trendingNews = listOf())
+
+                _categoryNewsUiState.value = response2.data?.toCategoryNewsUiState()
+                    ?: CategoryNewsUiState(categoryNews = listOf())
             }
         }
     }
@@ -85,6 +92,15 @@ class NewsViewModel @Inject constructor(
     fun handleKeypadVisibility(isVisible: Boolean) {
         _isKeypadVisible = isVisible
         updateKeypadUiState()
+    }
+
+    fun updateUserName() {
+        val userName = if (_stringBuilderForKeypad.isEmpty()) "READER" else _stringBuilderForKeypad.toString()
+
+        _userUiState.value = UserUiState(
+            userName = userName,
+            hasUserEnteredValidName = true
+        )
     }
 
     private fun updateKeypadUiState() {
