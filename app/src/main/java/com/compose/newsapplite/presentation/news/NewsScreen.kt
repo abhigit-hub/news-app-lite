@@ -57,8 +57,7 @@ fun NewsScreenContainer(
         MainContentArea(
             modifier = Modifier
                 .fillMaxWidth(1f)
-                .weight(0.78f)
-                .padding(20.dp),
+                .weight(0.78f),
         )
 
         NewsBottomBar(
