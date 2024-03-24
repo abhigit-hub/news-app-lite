@@ -114,11 +114,12 @@ fun TrendingNewsLazyRow(
     onTrendingItemClicked: (NewsArticleUiState) -> Unit
 ) {
     LazyRow {
-        items(trendingNewsUiState.trendingNews.size) { index ->
+        items(trendingNewsUiState.trendingNews.take(5).size) { index ->
             TrendingNewsItem(
                 modifier = modifier,
                 articleUiState = trendingNewsUiState.trendingNews[index],
-                onTrendingItemClicked = onTrendingItemClicked
+                onTrendingItemClicked = onTrendingItemClicked,
+                isForRow = true
             )
         }
     }
@@ -128,13 +129,17 @@ fun TrendingNewsLazyRow(
 fun TrendingNewsItem(
     modifier: Modifier,
     articleUiState: NewsArticleUiState,
+    isForRow: Boolean,
     onTrendingItemClicked: (NewsArticleUiState) -> Unit
 ) {
     Column(
         modifier = Modifier
-            .height(280.dp)
-            .width(320.dp)
-            .padding(horizontal = 15.dp)
+            .height(if (isForRow) 280.dp else 400.dp)
+            .width(if (isForRow) 320.dp else 400.dp)
+            .padding(
+                horizontal = if (isForRow) 15.dp else 0.dp,
+                vertical = if (isForRow) 0.dp else 0.dp
+            )
             .clickable {
                onTrendingItemClicked(articleUiState)
             },
@@ -150,7 +155,7 @@ fun TrendingNewsItem(
             contentScale = ContentScale.Crop,
             colorFilter = GraphicUtils.getNewsAppColorFilter(),
             modifier = modifier
-                .weight(0.68f)
+                .weight(if (isForRow) 0.68f else 0.72f)
                 .clip(RoundedCornerShape(30.dp))
                 .shadow(elevation = 50.dp)
                 .blur(
@@ -161,12 +166,12 @@ fun TrendingNewsItem(
         )
 
         NewsAppDateTextBox(
-            modifier = Modifier.weight(0.1f),
+            modifier = Modifier.weight(if (isForRow) 0.1f else 0.1f),
             text = articleUiState.publishedAt.toFormattedDateString()
         )
 
         NewsAppTextBox(
-            modifier = Modifier.weight(0.22f),
+            modifier = Modifier.weight(if (isForRow) 0.22f else 0.18f),
             text = articleUiState.title,
             textAlign = TextAlign.Start,
         )

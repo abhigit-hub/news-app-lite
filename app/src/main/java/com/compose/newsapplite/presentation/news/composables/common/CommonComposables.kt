@@ -7,6 +7,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -45,7 +49,7 @@ fun NewsAppImageTextBox(
         Spacer(modifier = Modifier.height(8.dp))
         Image(
             imageVector = imageVector,
-            contentDescription = null, // Provide proper content description
+            contentDescription = null,
             contentScale = ContentScale.None,
             modifier = Modifier.height(150.dp),
             colorFilter = ColorFilter.tint(
@@ -94,6 +98,24 @@ fun NewsAppDateTextBox(
             color = textColor,
             textAlign = textAlign,
             style = style
+        )
+    }
+}
+
+@Composable
+fun NewsAppBackButton(
+    modifier: Modifier,
+    tintColor: Color = Color.White
+) {
+    Box(
+        modifier = modifier.size(60.dp),
+        contentAlignment = Alignment.CenterStart
+    ) {
+        Image(
+            imageVector = Icons.Default.ArrowBack,
+            contentDescription = null,
+            modifier = Modifier,
+            colorFilter = ColorFilter.tint(tintColor)
         )
     }
 }
