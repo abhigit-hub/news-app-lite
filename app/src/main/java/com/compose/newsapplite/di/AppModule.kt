@@ -1,9 +1,12 @@
 package com.compose.newsapplite.di
 
+import android.content.Context
 import com.compose.newsapplite.data.remote.NewsApi
+import com.compose.newsapplite.utils.MockDataGenerator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -32,5 +35,11 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(NewsApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providesMockDataGenerator(@ApplicationContext appContext: Context): MockDataGenerator {
+        return MockDataGenerator(appContext)
     }
 }

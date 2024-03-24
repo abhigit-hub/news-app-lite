@@ -1,6 +1,7 @@
 package com.compose.newsapplite.di
 
 import com.compose.newsapplite.data.repository.NewsRepositoryImpl
+import com.compose.newsapplite.data.respositoryfake.FakeNewsRepositoryImpl
 import com.compose.newsapplite.domain.repository.NewsRepository
 import dagger.Binds
 import dagger.Module
@@ -12,9 +13,15 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
 
-    @Binds
+/*    @Binds
     @Singleton
     abstract fun bindNewsRepository(
         newsRepositoryImpl: NewsRepositoryImpl
+    ): NewsRepository*/
+
+    @Binds
+    @Singleton
+    abstract fun bindFakeNewsRepository(
+        fakeNewsRepositoryImpl: FakeNewsRepositoryImpl
     ): NewsRepository
 }

@@ -21,11 +21,11 @@ class NewsRepositoryImpl @Inject constructor(
 
     override suspend fun getNewsByTrending(country: String): Resource<NewsInfo> {
         return try {
-            Log.d(TAG, "REQ ==> getTopHeadlineNews() ==> (country = $country)")
+            Log.d(TAG, "REQ ==> getNewsByTrending() ==> (country = $country)")
             val response = newsApi.getNewsByTrending(
                 country = country
             )
-            Log.d(TAG, "RESP <== getTopHeadlineNews() <== $response)")
+            Log.d(TAG, "RESP <== getNewsByTrending() <== $response)")
 
             val data = response.toNewsInfo()
             Resource.Success(data = data)
