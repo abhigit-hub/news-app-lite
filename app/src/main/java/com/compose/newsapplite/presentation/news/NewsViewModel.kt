@@ -1,9 +1,11 @@
 package com.compose.newsapplite.presentation.news
-
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import com.compose.newsapplite.data.db.News
+import com.compose.newsapplite.data.remote.dto.ArticleDTO
 import com.compose.newsapplite.domain.repository.NewsRepository
 import com.compose.newsapplite.presentation.mapper.toCategoryNewsUiState
 import com.compose.newsapplite.presentation.mapper.toTrendingNewsUiState
@@ -15,6 +17,7 @@ import com.compose.newsapplite.presentation.model.UserUiState
 import com.compose.newsapplite.utils.KeypadConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.StringBuilder
@@ -121,5 +124,19 @@ class NewsViewModel @Inject constructor(
             userName = _stringBuilderForKeypad.toString(),
             hasUserEnteredValidName = true
         )
+    }
+
+    fun saveNews(news: News)=viewModelScope.launch {
+        newsRepository.saveNews(news)
+    }
+
+    fun getSavedNews()= liveData<Flow<List<News>>>{
+
+        val newsList=newsRepository.getSavedNews()
+
+    }
+
+    fun deleteArticle(news: News)=viewModelScope.launch {
+        newsRepository.deleteArticle(news)
     }
 }
