@@ -1,6 +1,9 @@
 package com.compose.newsapplite.data.remote.dto
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class NewsDTO(
     val status: String,
@@ -20,6 +23,8 @@ data class ArticleDTO(
 )
 
 data class SourceDTO(
+    @SerializedName("id")
     val id: String,
+    @SerializedName("name")
     val name: String
 )

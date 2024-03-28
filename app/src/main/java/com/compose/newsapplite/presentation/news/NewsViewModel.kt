@@ -1,9 +1,13 @@
 package com.compose.newsapplite.presentation.news
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import com.compose.newsapplite.data.db.News
+import com.compose.newsapplite.data.remote.dto.ArticleDTO
 import com.compose.newsapplite.domain.repository.NewsRepository
 import com.compose.newsapplite.presentation.mapper.toCategoryNewsUiState
 import com.compose.newsapplite.presentation.mapper.toTrendingNewsUiState
@@ -15,6 +19,7 @@ import com.compose.newsapplite.presentation.model.UserUiState
 import com.compose.newsapplite.utils.KeypadConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.StringBuilder
@@ -23,7 +28,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NewsViewModel @Inject constructor(
     private val newsRepository: NewsRepository
-): ViewModel() {
+) : ViewModel() {
 
     companion object {
         val TAG: String = NewsViewModel::class.java.simpleName
@@ -37,8 +42,10 @@ class NewsViewModel @Inject constructor(
     private var _isCapsLockEnabled = true
     private var _isKeypadVisible = true
 
-    private val _trendingNewsUiState = mutableStateOf(TrendingNewsUiState(trendingNews = emptyList()))
-    private val _categoryNewsUiState = mutableStateOf(CategoryNewsUiState(categoryNews = emptyList()))
+    private val _trendingNewsUiState =
+        mutableStateOf(TrendingNewsUiState(trendingNews = emptyList()))
+    private val _categoryNewsUiState =
+        mutableStateOf(CategoryNewsUiState(categoryNews = emptyList()))
     private val _selectedArticleUiState = mutableStateOf<NewsArticleUiState?>(null)
     private val _userUiState = mutableStateOf(UserUiState())
     private val _keypadUiState = mutableStateOf(KeypadUiState())
@@ -68,9 +75,11 @@ class NewsViewModel @Inject constructor(
             KeypadConstants.KeypadCharacter.KEYPAD_CHARACTER_CAPS -> {
                 _isCapsLockEnabled = _isCapsLockEnabled.not()
             }
+
             KeypadConstants.KeypadCharacter.KEYPAD_CHARACTER_SPACE -> {
                 _stringBuilderForKeypad.append(" ")
             }
+
             KeypadConstants.KeypadCharacter.KEYPAD_CHARACTER_BACKSPACE -> {
                 if (_stringBuilderForKeypad.isNullOrEmpty().not()) {
                     val charArray = _stringBuilderForKeypad.dropLast(1)
@@ -78,9 +87,11 @@ class NewsViewModel @Inject constructor(
                     _stringBuilderForKeypad.append(charArray)
                 }
             }
+
             KeypadConstants.KeypadCharacter.KEYPAD_CHARACTER_OK -> {
                 handleKeypadVisibility(false)
             }
+
             else -> {
                 val key =
                     if (_isCapsLockEnabled) keypadCharacter.characterRowMap.first.uppercase()
@@ -98,7 +109,8 @@ class NewsViewModel @Inject constructor(
     }
 
     fun updateUserName() {
-        val userName = if (_stringBuilderForKeypad.isEmpty()) "READER" else _stringBuilderForKeypad.toString()
+        val userName =
+            if (_stringBuilderForKeypad.isEmpty()) "READER" else _stringBuilderForKeypad.toString()
 
         _userUiState.value = UserUiState(
             userName = userName,
@@ -121,5 +133,20 @@ class NewsViewModel @Inject constructor(
             userName = _stringBuilderForKeypad.toString(),
             hasUserEnteredValidName = true
         )
+    }
+
+    fun saveNews(news: News) = viewModelScope.launch {
+        Log.d("Diraj","saveNews(): news = $news")
+        newsRepository.saveNews(news)
+    }
+
+    fun getSavedNews() = liveData<Flow<List<News>>> {
+
+        val newsList = newsRepository.getSavedNews()
+
+    }
+
+    fun deleteArticle(news: News) = viewModelScope.launch {
+        newsRepository.deleteArticle(news)
     }
 }

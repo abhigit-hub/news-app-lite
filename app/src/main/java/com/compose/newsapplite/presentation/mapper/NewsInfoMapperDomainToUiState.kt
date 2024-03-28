@@ -1,5 +1,6 @@
 package com.compose.newsapplite.presentation.mapper
 
+import com.compose.newsapplite.data.remote.dto.ArticleDTO
 import com.compose.newsapplite.domain.model.ArticleInfo
 import com.compose.newsapplite.domain.model.NewsInfo
 import com.compose.newsapplite.presentation.model.CategoryNewsUiState
@@ -27,5 +28,17 @@ fun ArticleInfo.toNewsArticleUiState(): NewsArticleUiState {
         url = this.url,
         urlToImage = this.urlToImage,
         sourceName = this.source.name
+    )
+}
+
+fun ArticleDTO.toNewsArticleState(): NewsArticleUiState {
+    return NewsArticleUiState(
+        author = this.author,
+        content = this.content,
+        publishedAt = this.publishedAt,
+        title = this.title,
+        url = this.url,
+        urlToImage = this.urlToImage,
+        sourceName = this.sourceDTO.name
     )
 }

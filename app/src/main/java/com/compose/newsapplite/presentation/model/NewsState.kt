@@ -18,6 +18,16 @@ data class NewsArticleUiState(
     val sourceName: String
 )
 
+data class NewsArticleData(
+    val author: String,
+    val content: String,
+    val publishedAt: String,
+    val title: String,
+    val url: String,
+    val urlToImage: String,
+    val sourceName: String
+)
+
 data class KeypadUiState(
     val textPad: String = "",
     val isCapsLockEnabled: Boolean = true,
