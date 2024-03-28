@@ -28,6 +28,7 @@ minSdk = "26"
 targetSdk = "34"
 compileSdk = "34"
 compose-compiler = "1.5.3"
+junitKtx = "1.1.5"
 
 
 [libraries]
@@ -62,6 +63,7 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 ksp = { module = "com.google.devtools.ksp:symbol-processing", version.ref = "ksp" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
 
 
 [plugins]

@@ -52,6 +52,10 @@ android {
 }
 
 dependencies {
+
+    //Junit - Testing
+    implementation(libs.androidx.junit.ktx)
+
     // Compose - BOM - (Bill of Materials)
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
