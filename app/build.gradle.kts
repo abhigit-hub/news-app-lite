@@ -78,10 +78,19 @@ dependencies {
     // Coil - KT - Image Loading
     implementation(libs.coil.kt.compose)
 
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+
     // Retrofit (Retrofit, Gson Converter, OkHTTP Logging)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.okhttp.logging)
+
+    // Room - Database
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
 
     // Dagger - Hilt
     implementation(libs.androidx.hilt.navigation.compose)
