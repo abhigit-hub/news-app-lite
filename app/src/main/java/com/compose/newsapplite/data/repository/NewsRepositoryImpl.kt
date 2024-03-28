@@ -1,19 +1,23 @@
 package com.compose.newsapplite.data.repository
 
 import android.util.Log
+import com.compose.newsapplite.data.db.NewsDTO
+import com.compose.newsapplite.data.db.NewsDao
 import com.compose.newsapplite.data.mapper.toNewsInfo
 import com.compose.newsapplite.data.remote.NewsApi
 import com.compose.newsapplite.domain.model.NewsInfo
 import com.compose.newsapplite.domain.repository.NewsRepository
 import com.compose.newsapplite.utils.Resource
+import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class NewsRepositoryImpl @Inject constructor(
-    private val newsApi: NewsApi
-): NewsRepository {
+    private val newsApi: NewsApi,
+    private val newsDao: NewsDao
+) : NewsRepository {
 
     companion object {
         private val TAG = NewsRepositoryImpl::class.java.simpleName
@@ -49,5 +53,17 @@ class NewsRepositoryImpl @Inject constructor(
             e.printStackTrace()
             Resource.Error("getNewsByCategory() => Failed api request")
         }
+    }
+
+    override suspend fun saveNews(newsDTO: NewsDTO) {
+        return newsDao.insertNews(newsDTO)
+    }
+
+    override suspend fun deleteSavedNews(newsDTO: NewsDTO) {
+        return newsDao.deleteNews(newsDTO)
+    }
+
+    override fun getAllSavedNews(): Flow<List<NewsDTO>> {
+        return newsDao.getAllNews()
     }
 }
