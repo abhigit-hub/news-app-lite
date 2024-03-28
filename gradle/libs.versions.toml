@@ -1,10 +1,12 @@
 [versions]
 accompanistPermission = "0.32.0"
-androidGradlePlugin = "8.1.4"
+androidGradlePlugin = "8.2.2"
 activityCompose = "1.8.2"
 composeBom = "2024.03.00"
 composeLatest = "1.7.0-alpha05"
 coilkt = "2.6.0"
+kotlinxCoroutinesAndroid = "1.8.0-RC2"
+kotlinxCoroutinesCore = "1.8.0-RC2"
 ktx = "1.12.0"
 hiltNavigationCompose = "1.2.0"
 destinations = "1.9.54"
@@ -16,7 +18,11 @@ lifecycle = "2.8.0-alpha03"
 material3 = "1.2.1"
 okhttp = "4.11.0"
 retrofit = "2.9.0"
+roomCompiler = "2.6.1"
+roomKtx = "2.6.1"
+roomRuntime = "2.6.1"
 versionCatalogUpdate = "0.8.1"
+runtime="2.6.1"
 
 minSdk = "26"
 targetSdk = "34"
@@ -41,10 +47,15 @@ androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "ktx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 coil-kt-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilkt" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 destinations-core = { module = "io.github.raamcosta.compose-destinations:core", version.ref = "destinations" }
 destinations-ksp = { module = "io.github.raamcosta.compose-destinations:ksp", version.ref = "destinations" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 okhttp3 = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }

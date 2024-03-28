@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.compose.newsapplite.data.db.News
+import com.compose.newsapplite.data.remote.dto.ArticleDTO
 import com.compose.newsapplite.presentation.model.CategoryNewsUiState
 import com.compose.newsapplite.presentation.model.NewsArticleUiState
 import com.compose.newsapplite.presentation.model.TrendingNewsUiState
@@ -16,7 +18,9 @@ fun MainContentArea(
     trendingNewsUiState: TrendingNewsUiState,
     categoryNewsUiState: CategoryNewsUiState,
     onViewAllClicked: () -> Unit,
-    onTrendingItemClicked: (NewsArticleUiState) -> Unit
+    onTrendingItemClicked: (NewsArticleUiState) -> Unit,
+    onSaveButtonClicked:(News) -> Unit
+
 ) {
     Column(
         modifier = modifier
@@ -29,7 +33,8 @@ fun MainContentArea(
                 .weight(0.5f),
             trendingNewsUiState = trendingNewsUiState,
             onViewAllClicked = onViewAllClicked,
-            onTrendingItemClicked = onTrendingItemClicked
+            onTrendingItemClicked = onTrendingItemClicked,
+            onSaveButtonClicked=onSaveButtonClicked
         )
         CategorizedNewsContent(
             modifier = modifier

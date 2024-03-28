@@ -1,18 +1,23 @@
 package com.compose.newsapplite.data.respositoryfake
 
 import android.util.Log
+import com.compose.newsapplite.data.db.News
+import com.compose.newsapplite.data.db.NewsDAO
 import com.compose.newsapplite.data.mapper.toNewsInfo
 import com.compose.newsapplite.data.remote.NewsApi
+import com.compose.newsapplite.data.remote.dto.ArticleDTO
 import com.compose.newsapplite.domain.model.NewsInfo
 import com.compose.newsapplite.domain.repository.NewsRepository
 import com.compose.newsapplite.utils.MockDataGenerator
 import com.compose.newsapplite.utils.Resource
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class FakeNewsRepositoryImpl @Inject constructor(
-    private val newsApi: NewsApi
+    private val newsApi: NewsApi,
+    private val newsDAO: NewsDAO
 ): NewsRepository {
 
     @Inject lateinit var mockDataGenerator: MockDataGenerator
@@ -48,5 +53,18 @@ class FakeNewsRepositoryImpl @Inject constructor(
         }
 
         return Resource.Error(message = "getNewsByCategory() => Failed mock api request")
+    }
+
+    override suspend fun saveNews(news: News) {
+        return newsDAO.insert(news)
+
+    }
+
+    override suspend fun deleteArticle(news: News) {
+        return newsDAO.deleteNews(news)
+    }
+
+    override fun getSavedNews(): Flow<List<News>> {
+        return newsDAO.getAllNews()
     }
 }

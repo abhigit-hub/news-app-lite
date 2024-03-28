@@ -58,6 +58,9 @@ fun NewsScreenContainer(
                 destinationsNavigator.navigate(
                     NewsDetailsContainerDestination()
                 )
+            },
+            onSaveButtonClicked={
+                viewModel.saveNews(it)
             }
         )
 

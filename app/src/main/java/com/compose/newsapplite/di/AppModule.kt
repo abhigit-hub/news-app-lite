@@ -1,6 +1,10 @@
 package com.compose.newsapplite.di
 
+import android.app.Application
 import android.content.Context
+import androidx.room.Room
+import com.compose.newsapplite.data.db.NewsDAO
+import com.compose.newsapplite.data.db.NewsDatabase
 import com.compose.newsapplite.data.remote.NewsApi
 import com.compose.newsapplite.utils.MockDataGenerator
 import dagger.Module
@@ -41,5 +45,19 @@ object AppModule {
     @Singleton
     fun providesMockDataGenerator(@ApplicationContext appContext: Context): MockDataGenerator {
         return MockDataGenerator(appContext)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNewsDataBase(app: Application): NewsDatabase {
+        return Room.databaseBuilder(app, NewsDatabase::class.java,"news_data_table")
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideArticleDAO(newsDatabase: NewsDatabase): NewsDAO {
+        return newsDatabase.getNewsDAO()
     }
 }
