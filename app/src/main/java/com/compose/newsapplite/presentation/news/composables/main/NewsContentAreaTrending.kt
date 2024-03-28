@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,7 +15,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.compose.newsapplite.R
+import com.compose.newsapplite.data.db.NewsDTO
 import com.compose.newsapplite.presentation.model.NewsArticleUiState
 import com.compose.newsapplite.presentation.model.TrendingNewsUiState
 import com.compose.newsapplite.presentation.news.composables.common.NewsAppImageTextBox
@@ -48,7 +53,8 @@ fun TrendingNewsContent(
     modifier: Modifier,
     trendingNewsUiState: TrendingNewsUiState,
     onViewAllClicked: () -> Unit,
-    onTrendingItemClicked: (NewsArticleUiState) -> Unit
+    onTrendingItemClicked: (NewsArticleUiState) -> Unit,
+    onSaveOrDeleteNewsButtonClicked: (NewsDTO) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -66,7 +72,8 @@ fun TrendingNewsContent(
                 .fillMaxWidth()
                 .fillMaxHeight(0.8f),
             trendingNewsUiState = trendingNewsUiState,
-            onTrendingItemClicked = onTrendingItemClicked
+            onTrendingItemClicked = onTrendingItemClicked,
+            onSaveOrDeleteNewsButtonClicked = onSaveOrDeleteNewsButtonClicked
         )
     }
 }
@@ -111,7 +118,8 @@ fun TrendingNewsBanner(
 fun TrendingNewsLazyRow(
     modifier: Modifier,
     trendingNewsUiState: TrendingNewsUiState,
-    onTrendingItemClicked: (NewsArticleUiState) -> Unit
+    onTrendingItemClicked: (NewsArticleUiState) -> Unit,
+    onSaveOrDeleteNewsButtonClicked: (NewsDTO) -> Unit
 ) {
     LazyRow {
         items(trendingNewsUiState.trendingNews.take(5).size) { index ->
@@ -119,7 +127,8 @@ fun TrendingNewsLazyRow(
                 modifier = modifier,
                 articleUiState = trendingNewsUiState.trendingNews[index],
                 onTrendingItemClicked = onTrendingItemClicked,
-                isForRow = true
+                isForRow = true,
+                onSaveOrDeleteNewsButtonClicked = onSaveOrDeleteNewsButtonClicked
             )
         }
     }
@@ -130,7 +139,8 @@ fun TrendingNewsItem(
     modifier: Modifier,
     articleUiState: NewsArticleUiState,
     isForRow: Boolean,
-    onTrendingItemClicked: (NewsArticleUiState) -> Unit
+    onTrendingItemClicked: (NewsArticleUiState) -> Unit,
+    onSaveOrDeleteNewsButtonClicked: (NewsDTO) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -141,29 +151,63 @@ fun TrendingNewsItem(
                 vertical = if (isForRow) 0.dp else 0.dp
             )
             .clickable {
-               onTrendingItemClicked(articleUiState)
+                onTrendingItemClicked(articleUiState)
             },
         verticalArrangement = Arrangement.Bottom,
     ) {
         val imagePainter = rememberImagePainter(
             data = articleUiState.urlToImage
         )
-        
-        Image(
-            painter = imagePainter,
-            contentDescription = "",
-            contentScale = ContentScale.Crop,
-            colorFilter = GraphicUtils.getNewsAppColorFilter(),
-            modifier = modifier
+
+        Box(
+            modifier = Modifier
                 .weight(if (isForRow) 0.68f else 0.72f)
-                .clip(RoundedCornerShape(30.dp))
-                .shadow(elevation = 50.dp)
-                .blur(
-                    radiusX = 1.5.dp,
-                    radiusY = 1.5.dp,
-                    edgeTreatment = BlurredEdgeTreatment.Unbounded
-                ),
-        )
+
+        ) {
+
+            Image(
+                painter = imagePainter,
+                contentDescription = "",
+                contentScale = ContentScale.Crop,
+                colorFilter = GraphicUtils.getNewsAppColorFilter(),
+                modifier = modifier
+                    .shadow(elevation = 50.dp)
+                    .clip(RoundedCornerShape(30.dp))
+                    .blur(
+                        radiusX = 1.5.dp,
+                        radiusY = 1.5.dp,
+                        edgeTreatment = BlurredEdgeTreatment.Unbounded
+                    ),
+            )
+
+            IconButton(
+                onClick = {
+                    onSaveOrDeleteNewsButtonClicked(
+                        NewsDTO(
+                            id = 0,
+                            author = articleUiState.author,
+                            content = articleUiState.content,
+                            publishedAt = articleUiState.publishedAt,
+                            title = articleUiState.title,
+                            url = articleUiState.url,
+                            urlToImage = articleUiState.urlToImage,
+                            sourceName = articleUiState.sourceName
+
+                        )
+                    )
+                },
+                Modifier.align(Alignment.TopEnd)
+            ) {
+                Icon(
+                    Icons.Filled.Favorite,
+                    contentDescription = "Save",
+                    tint = Color.Red
+                )
+
+            }
+
+        }
+
 
         NewsAppDateTextBox(
             modifier = Modifier.weight(if (isForRow) 0.1f else 0.1f),

@@ -58,7 +58,11 @@ fun NewsScreenContainer(
                 destinationsNavigator.navigate(
                     NewsDetailsContainerDestination()
                 )
+            },
+            onSaveOrDeleteNewsButtonClicked = {
+                viewModel.saveNews(it)
             }
+
         )
 
         NewsBottomBar(

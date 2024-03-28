@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.compose.newsapplite.data.db.NewsDTO
 import com.compose.newsapplite.domain.repository.NewsRepository
 import com.compose.newsapplite.presentation.mapper.toCategoryNewsUiState
 import com.compose.newsapplite.presentation.mapper.toTrendingNewsUiState
@@ -23,7 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NewsViewModel @Inject constructor(
     private val newsRepository: NewsRepository
-): ViewModel() {
+) : ViewModel() {
 
     companion object {
         val TAG: String = NewsViewModel::class.java.simpleName
@@ -37,17 +38,21 @@ class NewsViewModel @Inject constructor(
     private var _isCapsLockEnabled = true
     private var _isKeypadVisible = true
 
-    private val _trendingNewsUiState = mutableStateOf(TrendingNewsUiState(trendingNews = emptyList()))
-    private val _categoryNewsUiState = mutableStateOf(CategoryNewsUiState(categoryNews = emptyList()))
+    private val _trendingNewsUiState =
+        mutableStateOf(TrendingNewsUiState(trendingNews = emptyList()))
+    private val _categoryNewsUiState =
+        mutableStateOf(CategoryNewsUiState(categoryNews = emptyList()))
     private val _selectedArticleUiState = mutableStateOf<NewsArticleUiState?>(null)
     private val _userUiState = mutableStateOf(UserUiState())
     private val _keypadUiState = mutableStateOf(KeypadUiState())
+//    private val _isSaveOrDeleteButtonClicked = mutableStateOf(false)
 
     val trendingNewsUiState: State<TrendingNewsUiState> = _trendingNewsUiState
     val categoryNewsUiState: State<CategoryNewsUiState> = _categoryNewsUiState
     val selectedArticleUiState: State<NewsArticleUiState?> = _selectedArticleUiState
     val userUiState: State<UserUiState> = _userUiState
     val keypadUiState: State<KeypadUiState> = _keypadUiState
+//    val isSaveOrDeleteButtonClicked: State<Boolean> = _isSaveOrDeleteButtonClicked
 
     private fun initializeApiCall() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -68,9 +73,11 @@ class NewsViewModel @Inject constructor(
             KeypadConstants.KeypadCharacter.KEYPAD_CHARACTER_CAPS -> {
                 _isCapsLockEnabled = _isCapsLockEnabled.not()
             }
+
             KeypadConstants.KeypadCharacter.KEYPAD_CHARACTER_SPACE -> {
                 _stringBuilderForKeypad.append(" ")
             }
+
             KeypadConstants.KeypadCharacter.KEYPAD_CHARACTER_BACKSPACE -> {
                 if (_stringBuilderForKeypad.isNullOrEmpty().not()) {
                     val charArray = _stringBuilderForKeypad.dropLast(1)
@@ -78,9 +85,11 @@ class NewsViewModel @Inject constructor(
                     _stringBuilderForKeypad.append(charArray)
                 }
             }
+
             KeypadConstants.KeypadCharacter.KEYPAD_CHARACTER_OK -> {
                 handleKeypadVisibility(false)
             }
+
             else -> {
                 val key =
                     if (_isCapsLockEnabled) keypadCharacter.characterRowMap.first.uppercase()
@@ -98,7 +107,8 @@ class NewsViewModel @Inject constructor(
     }
 
     fun updateUserName() {
-        val userName = if (_stringBuilderForKeypad.isEmpty()) "READER" else _stringBuilderForKeypad.toString()
+        val userName =
+            if (_stringBuilderForKeypad.isEmpty()) "READER" else _stringBuilderForKeypad.toString()
 
         _userUiState.value = UserUiState(
             userName = userName,
@@ -121,5 +131,11 @@ class NewsViewModel @Inject constructor(
             userName = _stringBuilderForKeypad.toString(),
             hasUserEnteredValidName = true
         )
+    }
+
+    fun saveNews(newsDTO: NewsDTO) {
+        viewModelScope.launch {
+            newsRepository.saveNews(newsDTO)
+        }
     }
 }

@@ -81,15 +81,17 @@ fun NewsViewAllContainer(
 fun TrendingNewsColumnRow(
     modifier: Modifier,
     trendingNewsUiState: TrendingNewsUiState,
-    onTrendingItemClicked: (NewsArticleUiState) -> Unit
-) {
+    onTrendingItemClicked: (NewsArticleUiState) -> Unit,
+
+    ) {
     LazyColumn {
         items(trendingNewsUiState.trendingNews.size) { index ->
             TrendingNewsItem(
                 modifier = modifier,
                 articleUiState = trendingNewsUiState.trendingNews[index],
                 onTrendingItemClicked = onTrendingItemClicked,
-                isForRow = false
+                isForRow = false,
+                onSaveOrDeleteNewsButtonClicked = {}
             )
         }
     }
