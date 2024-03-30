@@ -53,7 +53,7 @@ fun NewsTopBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp),
-            style = NewsTypography.headlineLarge
+            style = NewsTypography.headlineSmall
         )
 
         Spacer(modifier = Modifier.size(5.dp))
@@ -69,7 +69,7 @@ fun NewsTopBar(
 
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),
-            color = Color.Gray
+            color = Color(0xFFFC8019).copy(alpha = 0.4f)
         )
     }
 }

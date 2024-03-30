@@ -67,7 +67,7 @@ fun NewsViewAllContainer(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)
-                .padding(start = 40.dp)
+                .padding(start = 60.dp)
                 .background(Color.Black)
                 .align(Alignment.TopCenter),
             text = "Trending News",
@@ -87,8 +87,8 @@ fun TrendingNewsColumnRow(
         items(trendingNewsUiState.trendingNews.size) { index ->
             TrendingNewsItem(
                 modifier = modifier,
-                articleUiState = trendingNewsUiState.trendingNews[index],
-                onTrendingItemClicked = onTrendingItemClicked,
+                newsArticleUiState = trendingNewsUiState.trendingNews[index],
+                onTrendingNewsItemClicked = onTrendingItemClicked,
                 isForRow = false
             )
         }

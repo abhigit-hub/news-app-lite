@@ -78,7 +78,7 @@ fun NewsDetailsContainer(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
-                    .padding(start = 40.dp)
+                    .padding(start = 60.dp)
                     .background(Color.Black)
                     .align(Alignment.TopCenter),
                 text = selectedArticleUiState.value!!.title,

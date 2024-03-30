@@ -55,7 +55,13 @@ fun NewsScreenContainer(
                         NewsViewAllContainerDestination()
                     )
             },
-            onTrendingItemClicked = {
+            onTrendingNewsItemClicked = {
+                viewModel.updateSelectedArticle(articleUiState = it)
+                destinationsNavigator.navigate(
+                    NewsDetailsContainerDestination()
+                )
+            },
+            onCategoryNewsItemClicked = {
                 viewModel.updateSelectedArticle(articleUiState = it)
                 destinationsNavigator.navigate(
                     NewsDetailsContainerDestination()

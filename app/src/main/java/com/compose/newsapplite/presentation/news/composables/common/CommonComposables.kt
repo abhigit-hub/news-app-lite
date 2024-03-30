@@ -108,7 +108,7 @@ fun NewsAppBackButton(
     tintColor: Color = Color.White
 ) {
     Box(
-        modifier = modifier.size(60.dp),
+        modifier = modifier.size(60.dp).padding(start = 20.dp),
         contentAlignment = Alignment.CenterStart
     ) {
         Image(

@@ -24,14 +24,10 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
-import com.compose.newsapplite.R
 import com.compose.newsapplite.presentation.model.NewsArticleUiState
 import com.compose.newsapplite.presentation.model.TrendingNewsUiState
 import com.compose.newsapplite.presentation.news.composables.common.NewsAppImageTextBox
@@ -39,16 +35,14 @@ import com.compose.newsapplite.presentation.news.composables.common.NewsAppDateT
 import com.compose.newsapplite.presentation.news.composables.common.NewsAppTextBox
 import com.compose.newsapplite.ui.theme.NewsTypography
 import com.compose.newsapplite.utils.GraphicUtils
-import com.compose.newsapplite.utils.convertToNewsAppLiteDate
 import com.compose.newsapplite.utils.toFormattedDateString
-import java.time.LocalDate
 
 @Composable
 fun TrendingNewsContent(
     modifier: Modifier,
     trendingNewsUiState: TrendingNewsUiState,
     onViewAllClicked: () -> Unit,
-    onTrendingItemClicked: (NewsArticleUiState) -> Unit
+    onTrendingNewsItemClicked: (NewsArticleUiState) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -66,7 +60,7 @@ fun TrendingNewsContent(
                 .fillMaxWidth()
                 .fillMaxHeight(0.8f),
             trendingNewsUiState = trendingNewsUiState,
-            onTrendingItemClicked = onTrendingItemClicked
+            onTrendingNewsItemClicked = onTrendingNewsItemClicked
         )
     }
 }
@@ -111,14 +105,14 @@ fun TrendingNewsBanner(
 fun TrendingNewsLazyRow(
     modifier: Modifier,
     trendingNewsUiState: TrendingNewsUiState,
-    onTrendingItemClicked: (NewsArticleUiState) -> Unit
+    onTrendingNewsItemClicked: (NewsArticleUiState) -> Unit
 ) {
     LazyRow {
         items(trendingNewsUiState.trendingNews.take(5).size) { index ->
             TrendingNewsItem(
                 modifier = modifier,
-                articleUiState = trendingNewsUiState.trendingNews[index],
-                onTrendingItemClicked = onTrendingItemClicked,
+                newsArticleUiState = trendingNewsUiState.trendingNews[index],
+                onTrendingNewsItemClicked = onTrendingNewsItemClicked,
                 isForRow = true
             )
         }
@@ -128,9 +122,9 @@ fun TrendingNewsLazyRow(
 @Composable
 fun TrendingNewsItem(
     modifier: Modifier,
-    articleUiState: NewsArticleUiState,
+    newsArticleUiState: NewsArticleUiState,
     isForRow: Boolean,
-    onTrendingItemClicked: (NewsArticleUiState) -> Unit
+    onTrendingNewsItemClicked: (NewsArticleUiState) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -141,12 +135,12 @@ fun TrendingNewsItem(
                 vertical = if (isForRow) 0.dp else 0.dp
             )
             .clickable {
-               onTrendingItemClicked(articleUiState)
+               onTrendingNewsItemClicked(newsArticleUiState)
             },
         verticalArrangement = Arrangement.Bottom,
     ) {
         val imagePainter = rememberImagePainter(
-            data = articleUiState.urlToImage
+            data = newsArticleUiState.urlToImage
         )
         
         Image(
@@ -167,12 +161,14 @@ fun TrendingNewsItem(
 
         NewsAppDateTextBox(
             modifier = Modifier.weight(if (isForRow) 0.1f else 0.1f),
-            text = articleUiState.publishedAt.toFormattedDateString()
+            text = newsArticleUiState.publishedAt.toFormattedDateString(),
+            textColor = Color.LightGray,
+            style = NewsTypography.labelLarge
         )
 
         NewsAppTextBox(
             modifier = Modifier.weight(if (isForRow) 0.22f else 0.18f),
-            text = articleUiState.title,
+            text = newsArticleUiState.title,
             textAlign = TextAlign.Start,
         )
     }

@@ -18,7 +18,8 @@ fun MainContentArea(
     categoryNewsUiState: CategoryNewsUiState,
     userSelectionUiState: UserSelectionUiState,
     onViewAllClicked: () -> Unit,
-    onTrendingItemClicked: (NewsArticleUiState) -> Unit,
+    onTrendingNewsItemClicked: (NewsArticleUiState) -> Unit,
+    onCategoryNewsItemClicked: (NewsArticleUiState) -> Unit,
     onCategorySelected: (Int) -> Unit
 ) {
     Column(
@@ -27,20 +28,21 @@ fun MainContentArea(
             .padding(horizontal = 20.dp)
     ) {
         TrendingNewsContent(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
-                .weight(0.5f),
+                .weight(0.45f),
             trendingNewsUiState = trendingNewsUiState,
             onViewAllClicked = onViewAllClicked,
-            onTrendingItemClicked = onTrendingItemClicked
+            onTrendingNewsItemClicked = onTrendingNewsItemClicked
         )
         CategorizedNewsContent(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
-                .weight(0.5f),
+                .weight(0.55f),
             categoryNewsUiState = categoryNewsUiState,
             userSelectionUiState = userSelectionUiState,
-            onCategorySelected = onCategorySelected
+            onCategorySelected = onCategorySelected,
+            onCategoryNewsItemClicked = onCategoryNewsItemClicked
         )
     }
 }
