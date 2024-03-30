@@ -9,14 +9,17 @@ import androidx.compose.ui.unit.dp
 import com.compose.newsapplite.presentation.model.CategoryNewsUiState
 import com.compose.newsapplite.presentation.model.NewsArticleUiState
 import com.compose.newsapplite.presentation.model.TrendingNewsUiState
+import com.compose.newsapplite.presentation.model.UserSelectionUiState
 
 @Composable
 fun MainContentArea(
     modifier: Modifier,
     trendingNewsUiState: TrendingNewsUiState,
     categoryNewsUiState: CategoryNewsUiState,
+    userSelectionUiState: UserSelectionUiState,
     onViewAllClicked: () -> Unit,
-    onTrendingItemClicked: (NewsArticleUiState) -> Unit
+    onTrendingItemClicked: (NewsArticleUiState) -> Unit,
+    onCategorySelected: (Int) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -35,7 +38,9 @@ fun MainContentArea(
             modifier = modifier
                 .fillMaxWidth()
                 .weight(0.5f),
-            categoryNewsUiState = categoryNewsUiState
+            categoryNewsUiState = categoryNewsUiState,
+            userSelectionUiState = userSelectionUiState,
+            onCategorySelected = onCategorySelected
         )
     }
 }

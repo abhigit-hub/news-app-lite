@@ -11,6 +11,7 @@ import com.compose.newsapplite.presentation.model.KeypadUiState
 import com.compose.newsapplite.presentation.model.CategoryNewsUiState
 import com.compose.newsapplite.presentation.model.NewsArticleUiState
 import com.compose.newsapplite.presentation.model.TrendingNewsUiState
+import com.compose.newsapplite.presentation.model.UserSelectionUiState
 import com.compose.newsapplite.presentation.model.UserUiState
 import com.compose.newsapplite.utils.KeypadConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,12 +42,14 @@ class NewsViewModel @Inject constructor(
     private val _categoryNewsUiState = mutableStateOf(CategoryNewsUiState(categoryNews = emptyList()))
     private val _selectedArticleUiState = mutableStateOf<NewsArticleUiState?>(null)
     private val _userUiState = mutableStateOf(UserUiState())
+    private val _userSelectionUiState = mutableStateOf(UserSelectionUiState())
     private val _keypadUiState = mutableStateOf(KeypadUiState())
 
     val trendingNewsUiState: State<TrendingNewsUiState> = _trendingNewsUiState
     val categoryNewsUiState: State<CategoryNewsUiState> = _categoryNewsUiState
     val selectedArticleUiState: State<NewsArticleUiState?> = _selectedArticleUiState
     val userUiState: State<UserUiState> = _userUiState
+    val userSelectionUiState: State<UserSelectionUiState> = _userSelectionUiState
     val keypadUiState: State<KeypadUiState> = _keypadUiState
 
     private fun initializeApiCall() {
@@ -120,6 +123,12 @@ class NewsViewModel @Inject constructor(
         _userUiState.value = UserUiState(
             userName = _stringBuilderForKeypad.toString(),
             hasUserEnteredValidName = true
+        )
+    }
+
+    fun updateSelectedCategoryIndex(index: Int) {
+        _userSelectionUiState.value = UserSelectionUiState(
+            selectedCategoryIndex = index
         )
     }
 }

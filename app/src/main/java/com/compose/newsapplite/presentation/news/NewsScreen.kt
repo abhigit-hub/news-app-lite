@@ -27,6 +27,7 @@ fun NewsScreenContainer(
     val trendingNewsUiState = viewModel.trendingNewsUiState
     val categoryNewsUiState = viewModel.categoryNewsUiState
     val userUiState = viewModel.userUiState
+    val userSelectionUiState = viewModel.userSelectionUiState
 
     Column(
         verticalArrangement = Arrangement.SpaceEvenly,
@@ -47,6 +48,7 @@ fun NewsScreenContainer(
                 .weight(0.78f),
             trendingNewsUiState = trendingNewsUiState.value,
             categoryNewsUiState = categoryNewsUiState.value,
+            userSelectionUiState = userSelectionUiState.value,
             onViewAllClicked = {
                 if (trendingNewsUiState.value.trendingNews.isNotEmpty())
                     destinationsNavigator.navigate(
@@ -58,6 +60,9 @@ fun NewsScreenContainer(
                 destinationsNavigator.navigate(
                     NewsDetailsContainerDestination()
                 )
+            },
+            onCategorySelected = {
+                viewModel.updateSelectedCategoryIndex(index = it)
             }
         )
 

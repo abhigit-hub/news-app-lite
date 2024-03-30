@@ -26,5 +26,10 @@ data class KeypadUiState(
 
 data class UserUiState(
     val userName: String = "READER",
-    val hasUserEnteredValidName: Boolean = false
+    val hasUserEnteredValidName: Boolean = false,
+)
+
+data class UserSelectionUiState(
+    val selectedCategoryIndex: Int = 0,
+    val allNewsCategoryTabList: List<String> = listOf("Trending", "Sports", "Politics", "Technology", "Global News", "Fitness", "Music")
 )
