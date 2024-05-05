@@ -83,7 +83,7 @@ fun CategoriesRowHeader(
         items(userSelectionUiState.allNewsCategoryTabList.size) {
             CategoryHeaderItem(
                 modifier = modifier,
-                headerItemName = userSelectionUiState.allNewsCategoryTabList[it],
+                headerItemName = userSelectionUiState.allNewsCategoryTabList[it].displayText,
                 isSelected = it == userSelectionUiState.selectedCategoryIndex,
                 onCategorySelected = {
                     onCategorySelected(it)

@@ -5,6 +5,7 @@ import com.compose.newsapplite.data.mapper.toNewsInfo
 import com.compose.newsapplite.data.remote.NewsApi
 import com.compose.newsapplite.domain.model.NewsInfo
 import com.compose.newsapplite.domain.repository.NewsRepository
+import com.compose.newsapplite.presentation.model.NewsCategoryType
 import com.compose.newsapplite.utils.MockDataGenerator
 import com.compose.newsapplite.utils.Resource
 import javax.inject.Inject
@@ -37,8 +38,8 @@ class FakeNewsRepositoryImpl @Inject constructor(
         return Resource.Error(message = "getNewsByTrending() => Failed mock api request")
     }
 
-    override suspend fun getNewsByCategory(category: String): Resource<NewsInfo> {
-        Log.d(TAG, "MOCK REQ ==> getNewsByCategory() ==> (category = $category)")
+    override suspend fun getNewsByCategory(categoryType: NewsCategoryType): Resource<NewsInfo> {
+        Log.d(TAG, "MOCK REQ ==> getNewsByCategory() ==> (categoryType = $categoryType)")
         val mockData = mockDataGenerator.getMockDataFromAsset(FILE_NAME_NEWS_BY_CATEGORY_MOCK_DATA)
 
         mockData?.let { newsDTO ->

@@ -1,6 +1,7 @@
 package com.compose.newsapplite.domain.repository
 
 import com.compose.newsapplite.domain.model.NewsInfo
+import com.compose.newsapplite.presentation.model.NewsCategoryType
 import com.compose.newsapplite.utils.Resource
 
 interface NewsRepository {
@@ -9,6 +10,6 @@ interface NewsRepository {
     ): Resource<NewsInfo>
 
     suspend fun getNewsByCategory(
-        category: String = "random"
+        categoryType: NewsCategoryType = NewsCategoryType.TRENDING
     ): Resource<NewsInfo>
 }

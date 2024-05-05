@@ -5,6 +5,7 @@ import com.compose.newsapplite.data.mapper.toNewsInfo
 import com.compose.newsapplite.data.remote.NewsApi
 import com.compose.newsapplite.domain.model.NewsInfo
 import com.compose.newsapplite.domain.repository.NewsRepository
+import com.compose.newsapplite.presentation.model.NewsCategoryType
 import com.compose.newsapplite.utils.Resource
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -35,11 +36,11 @@ class NewsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getNewsByCategory(category: String): Resource<NewsInfo> {
+    override suspend fun getNewsByCategory(categoryType: NewsCategoryType): Resource<NewsInfo> {
         return try {
-            Log.d(TAG, "REQ ==> getNewsByCategory() ==> (category = $category)")
+            Log.d(TAG, "REQ ==> getNewsByCategory() ==> (categoryType = $categoryType)")
             val response = newsApi.getNewsByCategory(
-                query = category
+                query = categoryType.searchKey
             )
             Log.d(TAG, "RESP <== getNewsByCategory() <== $response)")
 
