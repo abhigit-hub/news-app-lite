@@ -58,8 +58,8 @@ val NewsTypography = Typography(
     headlineLarge = defaultTextStyle.copy(
         fontSize = 32.sp, lineHeight = 40.sp, letterSpacing = 0.sp, lineBreak = LineBreak.Heading
     ),
-    headlineMedium = defaultTextStyle.copy(
-        fontSize = 28.sp, lineHeight = 36.sp, letterSpacing = 0.sp, lineBreak = LineBreak.Heading
+    headlineMedium = russoOneTextStyle.copy(
+        fontSize = 22.sp, lineHeight = 36.sp, letterSpacing = 0.sp, lineBreak = LineBreak.Heading
     ),
     headlineSmall = defaultTextStyle.copy(
         fontSize = 21.sp, lineHeight = 32.sp, letterSpacing = 0.sp, lineBreak = LineBreak.Heading

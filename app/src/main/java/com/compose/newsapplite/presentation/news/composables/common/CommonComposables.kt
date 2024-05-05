@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -65,12 +64,13 @@ fun NewsAppTextBox(
     modifier: Modifier,
     text: String,
     textAlign: TextAlign,
+    containerAlignment: Alignment = Alignment.CenterStart,
     textColor: Color = Color.White,
     style: TextStyle = NewsTypography.headlineSmall
 ) {
     Box(
         modifier = modifier.padding(vertical = 5.dp),
-        contentAlignment = Alignment.CenterStart
+        contentAlignment = containerAlignment
     ) {
         Text(
             text = text,
@@ -105,11 +105,12 @@ fun NewsAppDateTextBox(
 @Composable
 fun NewsAppBackButton(
     modifier: Modifier,
-    tintColor: Color = Color.White
+    tintColor: Color = Color.White,
+    containerAlignment: Alignment = Alignment.CenterStart
 ) {
     Box(
         modifier = modifier.size(60.dp).padding(start = 20.dp),
-        contentAlignment = Alignment.CenterStart
+        contentAlignment = containerAlignment
     ) {
         Image(
             imageVector = Icons.Default.ArrowBack,
