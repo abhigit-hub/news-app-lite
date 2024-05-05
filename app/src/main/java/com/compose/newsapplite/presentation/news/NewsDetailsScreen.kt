@@ -68,7 +68,7 @@ private fun NewsAppDetailsContent(
 
         NewsAppBackButton(
             modifier = Modifier
-                .weight(0.07f)
+                .weight(0.0625f)
                 .fillMaxWidth()
                 .background(Color.Black)
                 .clickable {

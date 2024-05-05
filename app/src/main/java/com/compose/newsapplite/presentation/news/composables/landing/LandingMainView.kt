@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.FloatingActionButton
@@ -125,7 +123,8 @@ fun NewsButtonView(
         onClick = {
             onOnboardingComplete()
         },
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
             .border(
                 width = 1.dp,
                 color = Color(0xFFFC8019),
@@ -168,9 +167,8 @@ fun NewsFloatingActionButton(
                     shape = RoundedCornerShape(20.dp)
                 ),
         ) {
-            Icon(
-                Icons.Rounded.DateRange,
-                tint = Color.White.copy(alpha = 0.8f),
+            Image(
+                painter = painterResource(id = R.drawable.vd_keypad),
                 contentDescription = "",
                 modifier = Modifier.size(35.dp)
             )

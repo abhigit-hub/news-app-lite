@@ -24,8 +24,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.compose.newsapplite.R
 import com.compose.newsapplite.ui.theme.NewsTypography
 import com.compose.newsapplite.utils.KeypadConstants
 
@@ -234,20 +236,19 @@ fun IconCharacterKey(
     isCapsLockEnabled: Boolean = false,
     onKeyChanged: (KeypadConstants.KeypadCharacter) -> Unit
 ) {
-    val icon = when (keypadCharacter) {
+    val drawable = when (keypadCharacter) {
         KeypadConstants.KeypadCharacter.KEYPAD_CHARACTER_CAPS -> {
-            if (isCapsLockEnabled) Icons.Default.Home
-            else Icons.Outlined.Home
+            if (isCapsLockEnabled) R.drawable.vd_keypad_capson
+            else R.drawable.vd_keypad_capsoff
         }
         KeypadConstants.KeypadCharacter.KEYPAD_CHARACTER_BACKSPACE -> {
-            Icons.Default.ArrowBack
+            R.drawable.vd_keypad_backspace
         }
         KeypadConstants.KeypadCharacter.KEYPAD_CHARACTER_OK -> {
-            Icons.Default.KeyboardArrowDown
+            R.drawable.vd_keypad_minimize
         }
 
-        else -> {
-            Icons.Default.ArrowBack}
+        else -> { R.drawable.vd_keypad_minimize }
     }
 
     Box(
@@ -265,6 +266,10 @@ fun IconCharacterKey(
             ),
         contentAlignment = Alignment.Center
     ) {
-        Icon(icon, tint = Color(0xFFFC8019), contentDescription = "")
+        Icon(
+            painter = painterResource(id = drawable),
+            tint = Color(0xFFFC8019),
+            contentDescription = ""
+        )
     }
 }
