@@ -10,6 +10,7 @@ import com.compose.newsapplite.presentation.mapper.toTrendingNewsUiState
 import com.compose.newsapplite.presentation.model.KeypadUiState
 import com.compose.newsapplite.presentation.model.CategoryNewsUiState
 import com.compose.newsapplite.presentation.model.NewsArticleUiState
+import com.compose.newsapplite.presentation.model.NewsCategoryType
 import com.compose.newsapplite.presentation.model.TrendingNewsUiState
 import com.compose.newsapplite.presentation.model.UserSelectionUiState
 import com.compose.newsapplite.presentation.model.UserUiState
@@ -38,6 +39,14 @@ class NewsViewModel @Inject constructor(
     private var _isCapsLockEnabled = true
     private var _isKeypadVisible = true
 
+    private lateinit var newsByTrending: CategoryNewsUiState
+    private lateinit var newsBySports: CategoryNewsUiState
+    private lateinit var newsByPolitics: CategoryNewsUiState
+    private lateinit var newsByTechnology: CategoryNewsUiState
+    private lateinit var newsByGlobalNews: CategoryNewsUiState
+    private lateinit var newsByFitness: CategoryNewsUiState
+    private lateinit var newsByMusic: CategoryNewsUiState
+
     private val _trendingNewsUiState = mutableStateOf(TrendingNewsUiState(trendingNews = emptyList()))
     private val _categoryNewsUiState = mutableStateOf(CategoryNewsUiState(categoryNews = emptyList()))
     private val _selectedArticleUiState = mutableStateOf<NewsArticleUiState?>(null)
@@ -55,14 +64,62 @@ class NewsViewModel @Inject constructor(
     private fun initializeApiCall() {
         viewModelScope.launch(Dispatchers.IO) {
             val response1 = newsRepository.getNewsByTrending()
-            val response2 = newsRepository.getNewsByCategory()
+            val responseForNewsByCategoryTrending = newsRepository.getNewsByCategory(NewsCategoryType.TRENDING)
+            val responseForNewsByCategorySports = newsRepository.getNewsByCategory(NewsCategoryType.SPORTS)
+            val responseForNewsByCategoryPolitics = newsRepository.getNewsByCategory(NewsCategoryType.POLITICS)
+            val responseForNewsByCategoryTechnology = newsRepository.getNewsByCategory(NewsCategoryType.TECHNOLOGY)
+            val responseForNewsByCategoryGlobalNews = newsRepository.getNewsByCategory(NewsCategoryType.GLOBAL_NEWS)
+            val responseForNewsByCategoryFitness = newsRepository.getNewsByCategory(NewsCategoryType.FITNESS)
+            val responseForNewsByCategoryMusic = newsRepository.getNewsByCategory(NewsCategoryType.MUSIC)
+
             withContext(Dispatchers.Main) {
+                // Update Trending News
                 _trendingNewsUiState.value = response1.data?.toTrendingNewsUiState()
                     ?: TrendingNewsUiState(trendingNews = listOf())
 
-                _categoryNewsUiState.value = response2.data?.toCategoryNewsUiState()
+                // Update Category News by Search
+                newsByTrending = responseForNewsByCategoryTrending.data?.toCategoryNewsUiState()
                     ?: CategoryNewsUiState(categoryNews = listOf())
+                newsBySports = responseForNewsByCategorySports.data?.toCategoryNewsUiState()
+                    ?: CategoryNewsUiState(categoryNews = listOf())
+                newsByPolitics = responseForNewsByCategoryPolitics.data?.toCategoryNewsUiState()
+                    ?: CategoryNewsUiState(categoryNews = listOf())
+                newsByTechnology = responseForNewsByCategoryTechnology.data?.toCategoryNewsUiState()
+                    ?: CategoryNewsUiState(categoryNews = listOf())
+                newsByGlobalNews = responseForNewsByCategoryGlobalNews.data?.toCategoryNewsUiState()
+                    ?: CategoryNewsUiState(categoryNews = listOf())
+                newsByFitness = responseForNewsByCategoryFitness.data?.toCategoryNewsUiState()
+                    ?: CategoryNewsUiState(categoryNews = listOf())
+                newsByMusic = responseForNewsByCategoryMusic.data?.toCategoryNewsUiState()
+                    ?: CategoryNewsUiState(categoryNews = listOf())
+
+                refreshNewsByCategory()
             }
+        }
+    }
+
+    private fun refreshNewsByCategory() {
+        when (_userSelectionUiState.value.selectedCategoryIndex) {
+            NewsCategoryType.TRENDING.searchIndex ->
+                _categoryNewsUiState.value = newsByTrending
+
+            NewsCategoryType.SPORTS.searchIndex ->
+                _categoryNewsUiState.value = newsBySports
+
+            NewsCategoryType.POLITICS.searchIndex ->
+                _categoryNewsUiState.value = newsByPolitics
+
+            NewsCategoryType.TECHNOLOGY.searchIndex ->
+                _categoryNewsUiState.value = newsByTechnology
+
+            NewsCategoryType.GLOBAL_NEWS.searchIndex ->
+                _categoryNewsUiState.value = newsByGlobalNews
+
+            NewsCategoryType.FITNESS.searchIndex ->
+                _categoryNewsUiState.value = newsByFitness
+
+            NewsCategoryType.MUSIC.searchIndex ->
+                _categoryNewsUiState.value = newsByMusic
         }
     }
 
@@ -130,5 +187,6 @@ class NewsViewModel @Inject constructor(
         _userSelectionUiState.value = UserSelectionUiState(
             selectedCategoryIndex = index
         )
+        refreshNewsByCategory()
     }
 }
