@@ -58,6 +58,7 @@ fun NewsViewAllContainer(
         NewsAppBackButton(
             modifier = Modifier
                 .align(Alignment.TopStart)
+                .background(Color.Black)
                 .clickable {
                     destinationsNavigator.popBackStack()
                 }
